@@ -1,0 +1,564 @@
+<!doctype html>
+<html lang="pt" class="light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>HELP — ONGs globais, doações e governança</title>
+  <meta name="description" content="Descubra e apoie ONGs ao redor do mundo. Doe com o token HELP e participe da governança." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #ffffff;
+      --bg-soft: rgba(255,255,255,0.7);
+      --text: #0a0a0a;
+      --muted: #6b7280;
+      --border: rgba(0,0,0,0.08);
+      --card: rgba(255,255,255,0.7);
+      --brand: #16a34a;
+      --brand-dark: #0f7a36;
+      --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 10px 25px rgba(0,0,0,0.04);
+    }
+    .dark {
+      --bg: #0a0a0a;
+      --bg-soft: rgba(10,10,10,0.6);
+      --text: #f5f5f5;
+      --muted: #a3a3a3;
+      --border: rgba(255,255,255,0.1);
+      --card: rgba(20,20,20,0.6);
+      --shadow: 0 1px 3px rgba(0,0,0,0.6), 0 10px 25px rgba(0,0,0,0.3);
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; height: 100%; }
+    body {
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+    .container { max-width: 1120px; margin: 0 auto; padding: 0 16px; }
+    /* Header */
+    .header {
+      position: sticky; top: 0; z-index: 50;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-soft);
+      backdrop-filter: blur(10px);
+    }
+    .nav {
+      height: 64px;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 800; }
+    .brand-logo {
+      width: 32px; height: 32px; border-radius: 8px;
+      background: linear-gradient(135deg, #16a34a 0%, #22c55e 50%, #059669 100%);
+      box-shadow: var(--shadow);
+    }
+    .links { display: none; gap: 18px; align-items: center; }
+    .link { color: #6b7280; transition: color .2s ease; font-weight: 500; }
+    .link.active, .link:hover { color: var(--brand); }
+    .actions { display: flex; gap: 10px; align-items: center; }
+    .btn {
+      display:inline-flex; align-items:center; gap:8px;
+      padding: 10px 14px; border-radius: 10px;
+      background: var(--brand); color: white; border: 1px solid #128a3f;
+      font-weight: 600; transition: transform .05s ease, background .2s ease;
+      box-shadow: var(--shadow);
+    }
+    .btn:hover { background: var(--brand-dark); }
+    .btn:active { transform: translateY(1px); }
+    .btn-outline {
+      background: transparent; color: var(--text); border: 1px solid var(--border);
+    }
+    .icon-btn { padding: 8px 10px; border-radius: 10px; border: 1px solid var(--border); background: transparent;}
+    .mobile-menu-btn { display: inline-flex; }
+    @media (min-width: 900px) {
+      .links { display: flex; }
+      .mobile-menu-btn { display: none; }
+    }
+    .mobile-menu { display:none; border-top:1px solid var(--border); }
+    .mobile-menu.open { display:block; }
+    .mobile-menu a { display:block; padding:12px 0; color:#6b7280; }
+    .mobile-menu a:hover { color: var(--brand); }
+
+    /* Hero */
+    .hero {
+      position: relative; overflow: hidden;
+      padding: 56px 0 32px;
+      background:
+        radial-gradient(1200px 500px at 80% -10%, rgba(34,197,94,0.15), transparent 60%),
+        radial-gradient(800px 400px at 20% 0%, rgba(59,130,246,0.12), transparent 60%);
+    }
+    .hero-bg {
+      position:absolute; inset:0; z-index:-1; opacity:.22;
+      background-image: url('https://images.unsplash.com/photo-1558841919-2d6f0b0b25c6?q=80&w=1974&auto=format&fit=crop');
+      background-size: cover; background-position: center;
+      filter: saturate(1.1) contrast(1.05);
+    }
+    .hero h1 {
+      font-size: clamp(32px, 5vw, 56px);
+      line-height: 1.1; margin: 0; font-weight: 900;
+      letter-spacing: -0.02em;
+      text-wrap: balance;
+    }
+    .hero p { margin-top: 12px; font-size: 18px; color: var(--muted); max-width: 720px; }
+    .cta-row { margin-top: 22px; display: flex; gap: 12px; flex-wrap: wrap; }
+
+    /* Cards / sections */
+    .section { margin-top: 48px; }
+    .section h2 { font-size: 28px; margin: 0 0 18px; font-weight: 800; }
+    .grid { display:grid; gap:16px; }
+    .grid-3 { grid-template-columns: repeat(1, minmax(0,1fr)); }
+    @media (min-width: 700px) { .grid-3 { grid-template-columns: repeat(3, minmax(0,1fr)); } }
+    .card {
+      border: 1px solid var(--border); border-radius: 16px; background: var(--card);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .card-body { padding: 18px; }
+    .muted { color: var(--muted); font-size: 14px; }
+    .tag {
+      display:inline-block; font-size:12px; padding:4px 8px; border-radius:999px;
+      background: rgba(34,197,94,0.15); color: #16a34a; border: 1px solid rgba(22,163,74,0.25);
+      font-weight: 600;
+    }
+    .country-pill {
+      display:inline-block; padding: 8px 12px; border-radius: 999px;
+      border:1px solid var(--border); transition: background .2s ease;
+    }
+    .country-pill.active { background: var(--brand); color: #fff; border-color: #128a3f; }
+    .thumb { width:100%; height:160px; object-fit:cover; display:block; }
+
+    /* Footer */
+    .footer {
+      margin-top: 64px; border-top:1px solid var(--border);
+      padding: 24px 0; color: var(--muted); font-size: 14px;
+    }
+
+    /* Hidden sections (SPA) */
+    .page { display: none; }
+    .page.active { display: block; }
+
+    /* Prose-like (whitepaper) */
+    .prose h3 { margin-top: 20px; margin-bottom: 8px; font-size: 20px; }
+    .prose p { margin: 10px 0; color: var(--text); }
+    .prose ul { padding-left: 20px; margin: 10px 0; }
+    .prose li { margin: 6px 0; }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container nav">
+      <a class="brand" href="#" data-link="home">
+        <span class="brand-logo" aria-hidden="true"></span>
+        <span>HELP</span>
+      </a>
+      <nav class="links">
+        <a class="link active" href="#" data-link="home">Início</a>
+        <a class="link" href="#" data-link="ongs">ONGs</a>
+        <a class="link" href="#" data-link="doacoes">Doações</a>
+        <a class="link" href="#" data-link="votacoes">Votações</a>
+        <a class="link" href="#" data-link="transparencia">Transparência</a>
+        <a class="link" href="#" data-link="whitepaper">Whitepaper</a>
+      </nav>
+      <div class="actions">
+        <button id="themeToggle" class="icon-btn" aria-label="Alternar tema">🌓</button>
+        <button id="connectBtn" class="btn">Conectar Carteira</button>
+        <button class="mobile-menu-btn icon-btn" id="menuBtn" aria-label="Menu">☰</button>
+      </div>
+    </div>
+    <div class="container mobile-menu" id="mobileMenu">
+      <a href="#" data-link="home">Início</a>
+      <a href="#" data-link="ongs">ONGs</a>
+      <a href="#" data-link="doacoes">Doações</a>
+      <a href="#" data-link="votacoes">Votações</a>
+      <a href="#" data-link="transparencia">Transparência</a>
+      <a href="#" data-link="whitepaper">Whitepaper</a>
+    </div>
+  </header>
+
+  <!-- Home -->
+  <section class="page active" id="page-home">
+    <div class="hero">
+      <div class="hero-bg" aria-hidden="true"></div>
+      <div class="container">
+        <h1>Potencialize o impacto global com HELP</h1>
+        <p>Descubra e apoie ONGs ao redor do mundo, doe com o token HELP e ajude a decidir para onde os fundos vão.</p>
+        <div class="cta-row">
+          <a href="#" class="btn" data-link="doacoes">Doar com HELP</a>
+          <a href="#" class="btn btn-outline" data-link="ongs">Cadastrar/Encontrar ONG</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="container section">
+      <div class="grid grid-3">
+        <a class="card" href="#" data-link="ongs">
+          <img class="thumb" src="https://images.unsplash.com/photo-1556740749-887f6717d7e4?q=80&w=1974&auto=format&fit=crop" alt="">
+          <div class="card-body">
+            <div class="muted">País</div>
+            <div style="font-weight:700; font-size:18px; margin-top:4px;">Brasil</div>
+            <div class="muted" style="margin-top:8px;">Ver ONGs</div>
+          </div>
+        </a>
+        <a class="card" href="#" data-link="ongs">
+          <img class="thumb" src="https://images.unsplash.com/photo-1485738422979-f5c462d49f74?q=80&w=1974&auto=format&fit=crop" alt="">
+          <div class="card-body">
+            <div class="muted">País</div>
+            <div style="font-weight:700; font-size:18px; margin-top:4px;">Estados Unidos</div>
+            <div class="muted" style="margin-top:8px;">Ver ONGs</div>
+          </div>
+        </a>
+        <a class="card" href="#" data-link="ongs">
+          <img class="thumb" src="https://images.unsplash.com/photo-1558985040-ed4d5029b8cb?q=80&w=1974&auto=format&fit=crop" alt="">
+          <div class="card-body">
+            <div class="muted">País</div>
+            <div style="font-weight:700; font-size:18px; margin-top:4px;">Índia</div>
+            <div class="muted" style="margin-top:8px;">Ver ONGs</div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="container section">
+      <h2>Transparência on-chain</h2>
+      <div class="card">
+        <div class="card-body">
+          <p><strong>Carteira oficial:</strong> <span id="officialWallet">0x1234567890ABCDEF1234567890ABCDEF12345678</span></p>
+          <p class="muted">Acompanhe no BscScan: <a class="link" href="https://bscscan.com/address/0x1234567890ABCDEF1234567890ABCDEF12345678" target="_blank" rel="noreferrer">Ver carteira</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ONGs -->
+  <section class="page" id="page-ongs">
+    <div class="container section">
+      <h2>ONGs por País</h2>
+      <div id="countryTabs" class="tabs" style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px;"></div>
+      <div id="ngoGrid" class="grid grid-3"></div>
+    </div>
+  </section>
+
+  <!-- Doações -->
+  <section class="page" id="page-doacoes">
+    <div class="container section">
+      <h2>Doações</h2>
+      <div class="card">
+        <div class="card-body">
+          <p>Conecte sua carteira para doar HELP diretamente para a ONG ou para o Fundo de Doações.</p>
+          <ul class="muted">
+            <li>Selecione a ONG ou doe para o Fundo.</li>
+            <li>Aprove o contrato do token HELP e confirme a transação.</li>
+            <li>Seu recibo aparecerá em Transparência.</li>
+          </ul>
+          <div style="margin-top:12px; display:flex; gap:8px; flex-wrap:wrap;">
+            <select id="donationNgo" style="padding:10px 12px; border-radius:10px; border:1px solid var(--border); background:transparent;">
+              <option value="">Fundo de Doações (padrão)</option>
+            </select>
+            <input id="donationAmount" type="number" min="0" placeholder="Quantidade HELP" style="padding:10px 12px; border-radius:10px; border:1px solid var(--border); background:transparent; width:220px;" />
+            <button class="btn" id="donateBtn">Doar</button>
+          </div>
+          <p id="donateStatus" class="muted" style="margin-top:10px;"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Votações -->
+  <section class="page" id="page-votacoes">
+    <div class="container section">
+      <h2>Votações</h2>
+      <div class="card">
+        <div class="card-body">
+          <p>Participe das rodadas de votação bloqueando HELP para apoiar suas ONGs favoritas. As 5 mais votadas recebem distribuição do Fundo.</p>
+          <div style="margin-top:12px; display:flex; gap:8px; flex-wrap:wrap;">
+            <select id="voteNgo" style="padding:10px 12px; border-radius:10px; border:1px solid var(--border); background:transparent;">
+              <option value="">Selecione uma ONG</option>
+            </select>
+            <input id="voteAmount" type="number" min="0" placeholder="HELP para votar" style="padding:10px 12px; border-radius:10px; border:1px solid var(--border); background:transparent; width:220px;" />
+            <button class="btn" id="voteBtn">Votar</button>
+          </div>
+          <p id="voteStatus" class="muted" style="margin-top:10px;"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Transparência -->
+  <section class="page" id="page-transparencia">
+    <div class="container section">
+      <h2>Transparência</h2>
+      <div class="card">
+        <div class="card-body">
+          <p>Relatórios de distribuição, auditorias e eventos on-chain estarão disponíveis aqui.</p>
+          <ul class="muted">
+            <li>Distribuições recentes</li>
+            <li>Votações encerradas</li>
+            <li>Transações da carteira oficial</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Whitepaper -->
+  <section class="page" id="page-whitepaper">
+    <div class="container section">
+      <h2>WHITEPAPER — HELP Token</h2>
+      <div class="card">
+        <div class="card-body prose">
+          <h3>1. Visão Geral</h3>
+          <p>O HELP Token é um ativo digital criado na Binance Smart Chain (BEP-20) com o objetivo de oferecer uma solução transparente, segura e descentralizada para doações a causas humanitárias.</p>
+          <h3>2. Missão e Propósito</h3>
+          <p>Democratizar e descentralizar a filantropia, utilizando blockchain para conectar doadores e projetos, garantindo rastreabilidade e confiança.</p>
+          <h3>3. Tokenomics</h3>
+          <ul>
+            <li>Nome/Símbolo: HELP</li>
+            <li>Total Supply: 1.000.000.000</li>
+            <li>Chain: Binance Smart Chain (BEP-20)</li>
+            <li>Distribuição: 50% Doações, 20% Liquidez, 10% Desenvolvimento Social, 10% Parceiros/ONGs, 5% Equipe, 5% Reserva</li>
+          </ul>
+          <h3>4. Funcionalidades</h3>
+          <p>Doações diretas, crowdfunding social e votações comunitárias sobre uso de fundos.</p>
+          <h4>4.1 Estratégia Técnica (Bot Off-chain)</h4>
+          <p>Monitorar preço (PancakeSwap/BscScan), acionar vendas programadas e registrar eventos públicos.</p>
+          <h4>4.2 Gatilhos Exemplos</h4>
+          <ul>
+            <li>+30% em 24h → vende 1%</li>
+            <li>+50% em 24h → vende 2%</li>
+            <li>+80% em 24h → vende 5% + queima 0,5%</li>
+          </ul>
+          <h3>5. Transparência e Auditoria</h3>
+          <p>Todas as movimentações serão visíveis on-chain; ONGs passam por verificação prévia.</p>
+          <h3>6. QR Code e Carteira</h3>
+          <p>Carteira oficial: 0x1234567890ABCDEF1234567890ABCDEF12345678</p>
+          <h3>7. Roadmap</h3>
+          <ul>
+            <li>Q4 2025 — Lançamento do token e site, listagem em DEX, captação de ONGs</li>
+            <li>Q1 2026 — dApp de doações, auditorias públicas, expansão global</li>
+          </ul>
+          <h3>8. Governança</h3>
+          <p>Votações periódicas e distribuição automática para as 5 mais votadas.</p>
+          <h3>9. Conclusão</h3>
+          <p>Transparência, propósito e descentralização para uma nova era da filantropia.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container" style="display:flex; gap:12px; align-items:center; justify-content:space-between; flex-wrap:wrap;">
+      <p>© <span id="year"></span> HELP. Todos os direitos reservados.</p>
+      <div style="display:flex; gap:12px;">
+        <a class="link" href="https://bscscan.com" target="_blank" rel="noreferrer">BscScan</a>
+        <a class="link" href="#">Privacidade</a>
+        <a class="link" href="#">Termos</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Estado simples
+    const state = {
+      connected: false,
+      address: null,
+      currentPage: 'home',
+      countries: [
+        { name: 'Brasil', iso2: 'BR' },
+        { name: 'Estados Unidos', iso2: 'US' },
+        { name: 'Índia', iso2: 'IN' },
+        { name: 'Nigéria', iso2: 'NG' },
+        { name: 'Indonésia', iso2: 'ID' }
+      ],
+      ngosByCountry: {
+        BR: [
+          { name: 'Instituto Esperança', slug: 'instituto-esperanca', desc: 'Apoio a famílias em vulnerabilidade.', verified: true, img: 'https://images.unsplash.com/photo-1509099836639-18ba1795216d?q=80&w=1974&auto=format&fit=crop' },
+          { name: 'Saúde para Todos', slug: 'saude-para-todos', desc: 'Campanhas de saúde básica.', verified: false, img: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?q=80&w=1974&auto=format&fit=crop' }
+        ],
+        US: [
+          { name: 'Hope Alliance', slug: 'hope-alliance', desc: 'Refúgio e alimentação.', verified: true, img: 'https://images.unsplash.com/photo-1544535830-9f122ec7ecfc?q=80&w=1974&auto=format&fit=crop' }
+        ],
+        IN: [
+          { name: 'Seva Trust', slug: 'seva-trust', desc: 'Educação e água potável.', verified: true, img: 'https://images.unsplash.com/photo-1526256262350-7da7584cf5eb?q=80&w=2070&auto=format&fit=crop' }
+        ],
+        NG: [
+          { name: 'Naija Relief', slug: 'naija-relief', desc: 'Ajuda emergencial.', verified: false, img: 'https://images.unsplash.com/photo-1532015917327-c7b360b1b53b?q=80&w=1974&auto=format&fit=crop' }
+        ],
+        ID: [
+          { name: 'Bantu Bersama', slug: 'bantu-bersama', desc: 'Assistência comunitária.', verified: true, img: 'https://images.unsplash.com/photo-1519315901367-f34ff9154487?q=80&w=1974&auto=format&fit=crop' }
+        ]
+      }
+    };
+
+    // Util: trocar página
+    function showPage(key) {
+      state.currentPage = key;
+      document.querySelectorAll('.page').forEach(el => el.classList.remove('active'));
+      document.getElementById('page-' + key).classList.add('active');
+      document.querySelectorAll('.links .link').forEach(a => {
+        a.classList.toggle('active', a.dataset.link === key);
+      });
+      // Fechar menu mobile
+      document.getElementById('mobileMenu').classList.remove('open');
+      // Preencher selects quando necessário
+      if (key === 'doacoes' || key === 'votacoes') populateNgoSelects();
+      if (key === 'ongs') renderOngs('BR'); // padrão
+    }
+
+    // Mobile menu
+    document.getElementById('menuBtn').addEventListener('click', () => {
+      document.getElementById('mobileMenu').classList.toggle('open');
+    });
+
+    // Navegação por data-link
+    document.querySelectorAll('[data-link]').forEach(el => {
+      el.addEventListener('click', (e) => {
+        e.preventDefault();
+        const key = el.dataset.link;
+        showPage(key);
+      });
+    });
+
+    // Tema
+    const themeBtn = document.getElementById('themeToggle');
+    function getPrefTheme() {
+      return localStorage.getItem('theme') || 'light';
+    }
+    function applyTheme(t) {
+      document.documentElement.classList.remove('light','dark');
+      document.documentElement.classList.add(t);
+      localStorage.setItem('theme', t);
+    }
+    themeBtn.addEventListener('click', () => {
+      applyTheme(document.documentElement.classList.contains('dark') ? 'light' : 'dark');
+    });
+    applyTheme(getPrefTheme());
+
+    // Conectar carteira (simulado)
+    const connectBtn = document.getElementById('connectBtn');
+    connectBtn.addEventListener('click', () => {
+      if (!state.connected) {
+        // Simula um endereço
+        state.connected = true;
+        state.address = '0x' + Math.random().toString(16).slice(2, 10).padEnd(8,'0') + '...' + Math.random().toString(16).slice(2, 10).padEnd(8,'0');
+      } else {
+        state.connected = false;
+        state.address = null;
+      }
+      updateConnectBtn();
+    });
+    function updateConnectBtn() {
+      connectBtn.textContent = state.connected ? (state.address + ' — Sair') : 'Conectar Carteira';
+    }
+    updateConnectBtn();
+
+    // Carregar tabs e grid de ONGs
+    function renderOngs(iso2) {
+      const tabs = document.getElementById('countryTabs');
+      tabs.innerHTML = '';
+      state.countries.forEach(c => {
+        const a = document.createElement('a');
+        a.href = '#';
+        a.textContent = c.name;
+        a.className = 'country-pill' + (c.iso2 === iso2 ? ' active' : '');
+        a.addEventListener('click', (e) => { e.preventDefault(); renderOngs(c.iso2); });
+        tabs.appendChild(a);
+      });
+
+      const grid = document.getElementById('ngoGrid');
+      grid.innerHTML = '';
+      const list = state.ngosByCountry[iso2] || [];
+      list.forEach(ngo => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+          <img class="thumb" src="${ngo.img}" alt="">
+          <div class="card-body">
+            <div style="display:flex; align-items:center; justify-content:space-between;">
+              <div style="font-weight:700; font-size:18px;">${ngo.name}</div>
+              ${ngo.verified ? '<span class="tag">Verificada</span>' : ''}
+            </div>
+            <p class="muted" style="margin-top:6px;">${ngo.desc}</p>
+            <div style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap;">
+              <a href="#" class="btn" data-link="doacoes" data-ngo="${ngo.slug}">Doar</a>
+              <a href="#" class="country-pill" data-link="votacoes" data-ngo="${ngo.slug}">Votar</a>
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+        // Wire CTA links
+        card.querySelectorAll('[data-link]').forEach(el => {
+          el.addEventListener('click', (e) => {
+            e.preventDefault();
+            const key = el.dataset.link;
+            showPage(key);
+            if (key === 'doacoes') {
+              populateNgoSelects();
+              document.getElementById('donationNgo').value = ngo.slug;
+            }
+            if (key === 'votacoes') {
+              populateNgoSelects();
+              document.getElementById('voteNgo').value = ngo.slug;
+            }
+          });
+        });
+      });
+    }
+
+    function allNgosFlat() {
+      const arr = [];
+      Object.keys(state.ngosByCountry).forEach(k => arr.push(...state.ngosByCountry[k]));
+      return arr;
+    }
+
+    function populateNgoSelects() {
+      const options = ['<option value="">Fundo de Doações (padrão)</option>']
+        .concat(allNgosFlat().map(n => `<option value="${n.slug}">${n.name}</option>`))
+        .join('');
+      const selD = document.getElementById('donationNgo');
+      const selV = document.getElementById('voteNgo');
+      if (selD) selD.innerHTML = options;
+      if (selV) selV.innerHTML = '<option value="">Selecione uma ONG</option>' + allNgosFlat().map(n => `<option value="${n.slug}">${n.name}</option>`).join('');
+    }
+
+    // Doação simulada
+    document.getElementById('donateBtn').addEventListener('click', () => {
+      const ngo = document.getElementById('donationNgo').value;
+      const amt = Number(document.getElementById('donationAmount').value || '0');
+      const out = document.getElementById('donateStatus');
+      if (!state.connected) { out.textContent = 'Conecte a carteira para doar.'; return; }
+      if (amt <= 0) { out.textContent = 'Informe uma quantidade válida.'; return; }
+      out.textContent = 'Enviando transação simulada...';
+      setTimeout(() => {
+        out.textContent = `Doação de ${amt} HELP enviada para ${ngo ? 'ONG ' + ngo : 'Fundo de Doações'} (simulado).`;
+      }, 900);
+    });
+
+    // Voto simulado
+    document.getElementById('voteBtn').addEventListener('click', () => {
+      const ngo = document.getElementById('voteNgo').value;
+      const amt = Number(document.getElementById('voteAmount').value || '0');
+      const out = document.getElementById('voteStatus');
+      if (!state.connected) { out.textContent = 'Conecte a carteira para votar.'; return; }
+      if (!ngo) { out.textContent = 'Selecione uma ONG.'; return; }
+      if (amt <= 0) { out.textContent = 'Informe uma quantidade válida de HELP para votar.'; return; }
+      out.textContent = 'Registrando voto simulado...';
+      setTimeout(() => {
+        out.textContent = `Voto de ${amt} HELP registrado para ${ngo} (simulado).`;
+      }, 900);
+    });
+
+    // Footer year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Inicializações
+    renderOngs('BR');
+    populateNgoSelects();
+  </script>
+</body>
+</html>
